@@ -3,9 +3,9 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var batchedUpdates = require('react-dom').unstable_batchedUpdates;
+const { unstable_batchedUpdates } = require('react-dom');
 
-module.exports = function createBatchedUpdatePlugin(options) {
+function createBatchedUpdatePlugin(options) {
     /**
      * @class BatchedUpdatePlugin
      */
@@ -18,20 +18,15 @@ module.exports = function createBatchedUpdatePlugin(options) {
          */
         plugContext: function plugContext() {
             return {
-                /**
-                 * Provides full access to the router in the action context
-                 * @param {Object} actionContext
-                 */
                 plugActionContext: function plugActionContext(actionContext) {
-                    var oldDispatch = actionContext.dispatch;
-                    actionContext.dispatch = function () {
-                        var args = arguments;
-                        batchedUpdates(function () {
-                            oldDispatch.apply(actionContext, args);
-                        });
+                    const oldDispatch = actionContext.dispatch;
+                    actionContext.dispatch = (...args) => {
+                        unstable_batchedUpdates(() => { oldDispatch.apply(actionContext, args); });
                     };
                 }
             };
         }
     };
-};
+}
+
+module.exports = createBatchedUpdatePlugin;
