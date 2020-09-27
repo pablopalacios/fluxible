@@ -2,8 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-const { unstable_batchedUpdates } = require('react-dom');
+import { unstable_batchedUpdates } from 'react-dom';
 
 function createBatchedUpdatePlugin(options) {
     /**
@@ -29,4 +28,4 @@ function createBatchedUpdatePlugin(options) {
     };
 }
 
-module.exports = createBatchedUpdatePlugin;
+export default createBatchedUpdatePlugin;

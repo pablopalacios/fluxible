@@ -2,11 +2,9 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-const React = require('react');
-const PropTypes = require('prop-types');
-const hoistNonReactStatics = require('hoist-non-react-statics');
+import React from 'react';
+import { func, object } from 'prop-types';
+import hoistNonReactStatics from'hoist-non-react-statics';
 
 /**
  * Provides context prop to all children as React context
@@ -50,13 +48,13 @@ function provideContext(Component, customContextTypes) {
     }
 
     ContextProvider.childContextTypes = {
-        executeAction: PropTypes.func.isRequired,
-        getStore: PropTypes.func.isRequired,
+        executeAction: func.isRequired,
+        getStore: func.isRequired,
         ...customContextTypes
     };
 
     ContextProvider.propTypes = {
-        context: PropTypes.object.isRequired
+        context: object.isRequired
     };
 
     ContextProvider.displayName = `contextProvider(${Component.displayName || Component.name || 'Component'})`;
@@ -66,4 +64,4 @@ function provideContext(Component, customContextTypes) {
     return ContextProvider;
 }
 
-module.exports = provideContext;
+export default provideContext;

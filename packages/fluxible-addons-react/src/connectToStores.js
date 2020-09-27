@@ -2,11 +2,9 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-const React = require('react');
-const PropTypes = require('prop-types');
-const hoistNonReactStatics = require('hoist-non-react-statics');
+import React from 'react';
+import { func } from 'prop-types';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 /**
  * Registers change listeners and retrieves state from stores using the `getStateFromStores`
@@ -78,7 +76,7 @@ function connectToStores(Component, stores, getStateFromStores, customContextTyp
     StoreConnector.displayName = `storeConnector(${Component.displayName || Component.name || 'Component'})`;
 
     StoreConnector.contextTypes = {
-        getStore: PropTypes.func.isRequired,
+        getStore: func.isRequired,
         ...customContextTypes
     },
 
@@ -89,4 +87,4 @@ function connectToStores(Component, stores, getStateFromStores, customContextTyp
     return StoreConnector;
 }
 
-module.exports = connectToStores;
+export default connectToStores;

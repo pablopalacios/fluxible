@@ -2,10 +2,8 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-const React = require('react');
-const FluxibleComponent = require('./FluxibleComponent');
+import React from 'react';
+import FluxibleComponent from './FluxibleComponent';
 
 /**
  * Creates an instance of the app level component with given props and a proper component
@@ -34,4 +32,4 @@ function createElementWithContext(fluxibleContext, props) {
     );
 }
 
-module.exports = createElementWithContext;
+export default createElementWithContext;
