@@ -9,5 +9,9 @@
     "test": {
       "plugins": ["istanbul"]
     }
-  }
+  },
+  "babelrcRoots": [
+     ".",
+      "packages/*"
+  ]
 }
