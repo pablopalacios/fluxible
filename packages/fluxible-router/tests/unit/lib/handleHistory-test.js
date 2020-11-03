@@ -2,17 +2,18 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
+import { expect } from 'chai';
+import { JSDOM } from 'jsdom';
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
+import createReactClass from 'create-react-class';
+import ReactTestUtils from 'react-dom/test-utils';
 
-var expect = require('chai').expect;
-var JSDOM = require('jsdom').JSDOM;
-var PropTypes = require('prop-types');
-var React;
-var ReactDOM;
-var createReactClass;
-var MockAppComponentLib;
-var RouteStore = require('../../../dist/lib/RouteStore');
-var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
-var ReactTestUtils;
+import MockAppComponentLib from '../';
+import RouteStore from '../../../';
+
 
 var TestRouteStore = RouteStore.withStaticRoutes({
     foo: { path: '/foo', method: 'get' },
