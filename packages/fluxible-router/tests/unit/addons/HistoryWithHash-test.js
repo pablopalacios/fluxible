@@ -2,18 +2,19 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
+import { expect } from 'chai';
+import _ from 'lodash';
+import HistoryWithHash from '../../../dist/addons/HistoryWithHash';
+import mockWindow from '../../mocks/mockWindow';
 
-var HistoryWithHash = require('../../../dist/addons/HistoryWithHash'),
-    expect = require('chai').expect,
-    _ = require('lodash'),
-    windowMock,
-    testResult;
+var windowMock;
+var testResult;
 
 describe('HistoryWithHash', function () {
 
     beforeEach(function () {
         testResult = {};
-        windowMock = require('../../mocks/mockWindow')(testResult);
+        windowMock = mockWindow(testResult);
     });
 
     describe('constructor', function () {

@@ -4,29 +4,28 @@
  */
 /*global window */
 /*eslint no-func-assign:0 */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var connectToStores = require('fluxible-addons-react').connectToStores;
-var hoistNonReactStatics = require('hoist-non-react-statics');
-var inherits = require('inherits');
+import { Component, createElement } from 'react';
+import { bool, func, object } from 'prop-types';
+import { connectToStores } from 'fluxible-addons-react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import inherits from 'inherits';
 
 function createComponent(Component) {
     function RouteHandler(props, context) {
-        React.Component.apply(this, arguments);
+        Component.apply(this, arguments);
     }
 
-    inherits(RouteHandler, React.Component);
+    inherits(RouteHandler, Component);
 
     RouteHandler.displayName = 'RouteHandler';
     RouteHandler.contextTypes = {
-        getStore: PropTypes.func.isRequired
+        getStore: func.isRequired
     };
     RouteHandler.propTypes = {
-        currentRoute: PropTypes.object,
-        currentNavigate: PropTypes.object,
-        currentNavigateError: PropTypes.object,
-        isNavigateComplete: PropTypes.bool
+        currentRoute: object,
+        currentNavigate: object,
+        currentNavigateError: object,
+        isNavigateComplete: bool
     };
 
     Object.assign(RouteHandler.prototype, {
@@ -34,7 +33,7 @@ function createComponent(Component) {
             var routeStore = this.context.getStore('RouteStore');
             var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
 
-            return React.createElement(Component, Object.assign({
+            return createElement(Component, Object.assign({
                 isActive: routeStore.isActive.bind(routeStore),
                 makePath: routeStore.makePath.bind(routeStore)
             }, this.props, props));
@@ -59,6 +58,8 @@ function createComponent(Component) {
     return RouteHandler;
 }
 
-module.exports = function handleRoute(Component) {
+function handleRoute(Component) {
     return createComponent.apply(null, arguments);
-};
+}
+
+export default handleRoute;

@@ -2,12 +2,11 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var provideContext = require('fluxible-addons-react').provideContext;
-var handleHistory = require('../../dist/lib/handleHistory');
-var createReactClass = require('create-react-class');
+import React from 'react';
+import PropTypes from 'prop-types';
+import { provideContext } from 'fluxible-addons-react';
+import createReactClass from 'create-react-class';
+import handleHistory from '../../dist/lib/handleHistory';
 
 var MockAppComponent = createReactClass({
     contextTypes: {
@@ -30,11 +29,12 @@ var MockAppComponent = createReactClass({
 var customContextTypes = {
     logger: PropTypes.object
 };
-module.exports = provideContext(handleHistory(MockAppComponent, {
+
+export default provideContext(handleHistory(MockAppComponent, {
     checkRouteOnPageLoad: false,
     enableScroll: true
 }), customContextTypes);
 
-module.exports.createWrappedMockAppComponent = function createWrappedMockAppComponent(opts) {
+export function createWrappedMockAppComponent(opts) {
     return provideContext(handleHistory(MockAppComponent, opts), customContextTypes);
-};
+}

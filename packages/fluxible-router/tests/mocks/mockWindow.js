@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-module.exports = function mockWindow(testResult) {
+function mockWindow(testResult) {
     return {
         HTML5: {
             document: {},
@@ -94,4 +94,6 @@ module.exports = function mockWindow(testResult) {
         }
     };
 
-};
+}
+
+export default mockWindow;

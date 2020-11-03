@@ -4,12 +4,13 @@
  */
 /*global window,process */
 /*eslint react/prop-types:0 */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var RouteStore = require('./RouteStore');
-var debug = require('debug')('NavLink');
-var navigateAction = require('./navigateAction');
+import { Component, createElement } from 'react';
+import { bool, func, object, string } from 'prop-types';
+import createDebug from 'debug';
+import RouteStore from './RouteStore';
+import navigateAction from './navigateAction';
+
+var debug = createDebug('NavLink');
 var __DEV__ = process.env.NODE_ENV !== 'production';
 
 function objectWithoutProperties(obj, keys) {
@@ -63,7 +64,7 @@ function getRelativeHref(href) {
     return href.substring(origin.length) || '/';
 }
 
-class NavLink extends React.Component {
+class NavLink extends Component {
     constructor (props, context) {
         super(props, context)
 
@@ -350,7 +351,7 @@ class NavLink extends React.Component {
 
         var childElement = isActive ? activeElement || 'a' : 'a';
 
-        return React.createElement(
+        return createElement(
             childElement,
             childProps,
             props.children
@@ -362,38 +363,40 @@ NavLink._isMounted = false;
 NavLink.autobind = false;
 NavLink.displayName = 'NavLink';
 NavLink.contextTypes = {
-    executeAction: PropTypes.func.isRequired,
-    getStore: PropTypes.func.isRequired,
-    logger: PropTypes.object
-}
+    executeAction: func.isRequired,
+    getStore: func.isRequired,
+    logger: object
+};
 NavLink.propTypes = {
-    href: PropTypes.string,
-    stopPropagation: PropTypes.bool,
-    routeName: PropTypes.string,
-    navParams: PropTypes.object,
-    queryParams: PropTypes.object,
-    followLink: PropTypes.bool,
-    preserveScrollPosition: PropTypes.bool,
-    replaceState: PropTypes.bool,
-    validate: PropTypes.bool,
-    activeClass: PropTypes.string,
-    activeElement: PropTypes.string,
-    activeStyle: PropTypes.object
-}
+    href: string,
+    stopPropagation: bool,
+    routeName: string,
+    navParams: object,
+    queryParams: object,
+    followLink: bool,
+    preserveScrollPosition: bool,
+    replaceState: bool,
+    validate: bool,
+    activeClass: string,
+    activeElement: string,
+    activeStyle: object
+};
 
 /**
  * create NavLink component with custom options
  * @param {Object} overwriteSpec spec to overwrite the default spec to create NavLink
  * @returns {React.Component} NavLink component
  */
-module.exports = function createNavLinkComponent (overwriteSpec) {
+function createNavLinkComponent (overwriteSpec) {
     if (!overwriteSpec) return NavLink;
 
     class ExendedNavLink extends NavLink {}
 
     Object.keys(overwriteSpec).forEach(function(key) {
         ExendedNavLink.prototype[key] = overwriteSpec[key];
-    })
+    });
 
     return ExendedNavLink;
-};
+}
+
+export default createNavLinkComponent;

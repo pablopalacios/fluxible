@@ -3,20 +3,22 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*global window */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var debug = require('debug')('FluxibleRouter:handleHistory');
-var handleRoute = require('../lib/handleRoute');
-var navigateAction = require('../lib/navigateAction');
-var History = require('./History');
+import { Component, createElement } from 'react';
+import { func, object } from 'prop-types';
+import createDebug from 'debug';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import inherits from 'inherits';
+import handleRoute from '../lib/handleRoute';
+import navigateAction from '../lib/navigateAction';
+import History from './History';
+
+var debug = createDebug('FluxibleRouter:handleHistory');
+
 var TYPE_CLICK = 'click';
 var TYPE_PAGELOAD = 'pageload';
 var TYPE_REPLACESTATE = 'replacestate';
 var TYPE_POPSTATE = 'popstate';
 var TYPE_DEFAULT = 'default'; // default value if navigation type is missing, for programmatic navigation
-var hoistNonReactStatics = require('hoist-non-react-statics');
-var inherits = require('inherits');
 
 var defaultOptions = {
     checkRouteOnPageLoad: false,
@@ -53,19 +55,19 @@ function createComponent(Component, opts) {
     }
 
     function HistoryHandler(props, context) {
-        React.Component.apply(this, arguments);
+        Component.apply(this, arguments);
     }
 
-    inherits(HistoryHandler, React.Component);
+    inherits(HistoryHandler, Component);
 
     HistoryHandler.displayName = 'HistoryHandler';
     HistoryHandler.contextTypes = {
-        executeAction: PropTypes.func.isRequired,
-        logger: PropTypes.object
+        executeAction: func.isRequired,
+        logger: object
     };
     HistoryHandler.propTypes = {
-        currentRoute: PropTypes.object,
-        currentNavigate: PropTypes.object
+        currentRoute: object,
+        currentNavigate: object
     };
     HistoryHandler.defaultProps = {
         currentRoute: null,
@@ -287,7 +289,7 @@ function createComponent(Component, opts) {
 
         render: function () {
             var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
-            return React.createElement(Component, Object.assign({}, this.props, props));
+            return createElement(Component, Object.assign({}, this.props, props));
         }
     });
 
@@ -318,6 +320,8 @@ function createComponent(Component, opts) {
  *                  https://github.com/yahoo/fluxible/issues/349.
  * @returns {React.Component}
  */
-module.exports = function handleHistory(Component, opts) {
+function handleHistory(Component, opts) {
     return createComponent.apply(null, arguments);
-};
+}
+
+export default handleHistory;

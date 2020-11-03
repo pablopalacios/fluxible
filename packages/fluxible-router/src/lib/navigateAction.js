@@ -2,8 +2,9 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
+import createDebug from 'debug';
 
-var debug = require('debug')('navigateAction');
+var debug = createDebug('navigateAction');
 
 function navigateAction (context, payload, done) {
     var routeStore = context.getStore('RouteStore');
@@ -83,4 +84,4 @@ function navigateAction (context, payload, done) {
 
 navigateAction.displayName = 'navigateAction';
 
-module.exports = navigateAction;
+export default navigateAction;
