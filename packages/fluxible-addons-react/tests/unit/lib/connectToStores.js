@@ -100,51 +100,6 @@ describe('fluxible-addons-react', () => {
             done();
         });
 
-        describe('refs', () => {
-            const hasWrappedComponentRef = (component) => {
-                const contextProvider = component;
-                const storeConnector =
-                    contextProvider.wrappedElementRef.current;
-                const wrappedElement = storeConnector.wrappedElementRef.current;
-                return Boolean(wrappedElement);
-            };
-
-            it('should add a ref to class components', () => {
-                class Component extends React.Component {
-                    render() {
-                        return <noscript />;
-                    }
-                }
-                const WrappedComponent = provideContext(
-                    connectToStores(Component, [], () => ({}))
-                );
-
-                const container = document.createElement('div');
-                const component = ReactDOM.render(
-                    <WrappedComponent context={appContext} />,
-                    container
-                );
-                expect(hasWrappedComponentRef(component)).to.equal(true);
-            });
-
-            it('should not add a ref to pure function components', () => {
-                const WrappedComponent = provideContext(
-                    connectToStores(
-                        () => <noscript />,
-                        [],
-                        () => ({})
-                    )
-                );
-
-                const container = document.createElement('div');
-                const component = ReactDOM.render(
-                    <WrappedComponent context={appContext} />,
-                    container
-                );
-                expect(hasWrappedComponentRef(component)).to.equal(false);
-            });
-        });
-
         it('should hoist non-react statics to higher order component', () => {
             class Component extends React.Component {
                 static initAction() {}
