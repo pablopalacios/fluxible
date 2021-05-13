@@ -87,43 +87,5 @@ describe('fluxible-addons-react', () => {
                 Component.displayName
             );
         });
-
-        it('should add a ref to class components', () => {
-            const context = {
-                executeAction: () => {},
-                getStore: () => {},
-            };
-
-            class Component extends React.Component {
-                render() {
-                    return <noscript />;
-                }
-            }
-
-            const WrappedComponent = provideContext(Component);
-
-            const container = document.createElement('div');
-            const component = ReactDOM.render(
-                <WrappedComponent context={context} />,
-                container
-            );
-            expect(component).to.include.keys('wrappedElementRef');
-        });
-
-        it('should not add a ref to pure function components', () => {
-            const context = {
-                executeAction: () => {},
-                getStore: () => {},
-            };
-
-            const WrappedComponent = provideContext(() => <noscript />);
-
-            const container = document.createElement('div');
-            const component = ReactDOM.render(
-                <WrappedComponent context={context} />,
-                container
-            );
-            expect(component.refs).to.not.include.keys('wrappedElement');
-        });
     });
 });

@@ -21,29 +21,16 @@ import { FluxibleProvider } from './FluxibleContext';
  */
 function provideContext(Component) {
     class ContextProvider extends ReactComponent {
-        constructor(props) {
-            super(props);
-            this.wrappedElementRef = createRef();
-        }
-
         render() {
-            const props =
-                Component.prototype && Component.prototype.isReactComponent
-                    ? { ref: this.wrappedElementRef }
-                    : null;
-
-            const { context } = this.props;
-            const children = createElement(Component, {
-                ...this.props,
-                ...props,
-            });
-            return createElement(FluxibleProvider, { context }, children);
+            return createElement(
+                FluxibleProvider,
+                { context: this.props.context },
+                createElement(Component, this.props)
+            );
         }
     }
 
-    ContextProvider.propTypes = {
-        context: object.isRequired,
-    };
+    ContextProvider.propTypes = { context: object.isRequired };
 
     ContextProvider.displayName = `contextProvider(${
         Component.displayName || Component.name || 'Component'
