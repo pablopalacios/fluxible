@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { Component, createElement } from 'react';
+import { createElement } from 'react';
 import FluxibleComponent from './FluxibleComponent';
 
 /**
@@ -15,13 +15,18 @@ import FluxibleComponent from './FluxibleComponent';
 function createElementWithContext(fluxibleContext, props) {
     const Component = fluxibleContext.getComponent();
     if (!Component) {
-        throw new Error('A top-level component was not passed to the Fluxible constructor.');
+        throw new Error(
+            'A top-level component was not passed to the Fluxible constructor.'
+        );
     }
 
     const context = fluxibleContext.getComponentContext();
 
-    if (Component.displayName && Component.displayName.includes('contextProvider')) {
-        return createElement(Component, { context, ...props});
+    if (
+        Component.displayName &&
+        Component.displayName.includes('contextProvider')
+    ) {
+        return createElement(Component, { context, ...props });
     }
 
     const children = createElement(Component, props);
