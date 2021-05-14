@@ -30,11 +30,6 @@ function createComponent(Component) {
     Object.assign(RouteHandler.prototype, {
         render: function () {
             var routeStore = this.context.getStore('RouteStore');
-            var props =
-                Component.prototype && Component.prototype.isReactComponent
-                    ? { ref: 'wrappedElement' }
-                    : null;
-
             return React.createElement(
                 Component,
                 Object.assign(
@@ -42,8 +37,7 @@ function createComponent(Component) {
                         isActive: routeStore.isActive.bind(routeStore),
                         makePath: routeStore.makePath.bind(routeStore),
                     },
-                    this.props,
-                    props
+                    this.props
                 )
             );
         },
