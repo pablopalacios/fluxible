@@ -336,14 +336,7 @@ function createComponent(Component, opts) {
         },
 
         render: function () {
-            var props =
-                Component.prototype && Component.prototype.isReactComponent
-                    ? { ref: 'wrappedElement' }
-                    : null;
-            return React.createElement(
-                Component,
-                Object.assign({}, this.props, props)
-            );
+            return React.createElement(Component, this.props);
         },
     });
 
