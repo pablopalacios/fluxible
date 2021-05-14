@@ -24,30 +24,44 @@ function createComponent(Component) {
         currentRoute: PropTypes.object,
         currentNavigate: PropTypes.object,
         currentNavigateError: PropTypes.object,
-        isNavigateComplete: PropTypes.bool
+        isNavigateComplete: PropTypes.bool,
     };
 
     Object.assign(RouteHandler.prototype, {
         render: function () {
             var routeStore = this.context.getStore('RouteStore');
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
+            var props =
+                Component.prototype && Component.prototype.isReactComponent
+                    ? { ref: 'wrappedElement' }
+                    : null;
 
-            return React.createElement(Component, Object.assign({
-                isActive: routeStore.isActive.bind(routeStore),
-                makePath: routeStore.makePath.bind(routeStore)
-            }, this.props, props));
+            return React.createElement(
+                Component,
+                Object.assign(
+                    {
+                        isActive: routeStore.isActive.bind(routeStore),
+                        makePath: routeStore.makePath.bind(routeStore),
+                    },
+                    this.props,
+                    props
+                )
+            );
+        },
+    });
+
+    RouteHandler = connectToStores(
+        RouteHandler,
+        ['RouteStore'],
+        function (context) {
+            var routeStore = context.getStore('RouteStore');
+            return {
+                currentNavigate: routeStore.getCurrentNavigate(),
+                currentNavigateError: routeStore.getCurrentNavigateError(),
+                isNavigateComplete: routeStore.isNavigateComplete(),
+                currentRoute: routeStore.getCurrentRoute(),
+            };
         }
-    });
-
-    RouteHandler = connectToStores(RouteHandler, ['RouteStore'], function (context) {
-        var routeStore = context.getStore('RouteStore');
-        return {
-            currentNavigate: routeStore.getCurrentNavigate(),
-            currentNavigateError: routeStore.getCurrentNavigateError(),
-            isNavigateComplete: routeStore.isNavigateComplete(),
-            currentRoute: routeStore.getCurrentRoute()
-        };
-    });
+    );
 
     // Copy statics to RouteHandler
     hoistNonReactStatics(RouteHandler, Component);
